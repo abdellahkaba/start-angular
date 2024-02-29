@@ -22,3 +22,4 @@ ng generate component products | ng g c products
             ]
 # generation de service example
 ng g s services/product
+Pour le formulaire on importe ReactiveFormModule

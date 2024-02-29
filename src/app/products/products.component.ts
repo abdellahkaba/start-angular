@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../services/product.service";
 import {Product} from "../model/product.model";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-products',
@@ -10,12 +11,16 @@ import {Product} from "../model/product.model";
 export class ProductsComponent implements OnInit{
   products! : Array<Product>
   errorMessage! : string
+  searchFormGroup! : FormGroup
 
   //on aura besoin d'utiliser notre service en l'injectant dans le constructeur
-  constructor(private productService : ProductService) {
+  constructor(private productService : ProductService, private fb : FormBuilder) {
   }
   //on l'utilise dans ngOnInit en retourant un objet de type observable
   ngOnInit(): void {
+    this.searchFormGroup = this.fb.group({
+      keyword : this.fb.control(null)
+    })
     this.handleGetAllProducts();
   }
   //une methode retourne les produits
@@ -52,6 +57,15 @@ export class ProductsComponent implements OnInit{
       next : (data) => {
         p.promotion=!promo
       },
+    })
+  }
+
+  handleSearchProduct() {
+    let keyword = this.searchFormGroup.value.keyword
+    this.productService.searchProducts(keyword).subscribe( {
+      next : (data) => {
+        this.products = data
+      }
     })
   }
 }
