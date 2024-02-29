@@ -1,0 +1,15 @@
+# Installation
+ng new front-app --no-standalone --routing --ssr=false
+# execution
+ng serve
+# Installation des libraries
+npm install --save bootstrap
+npm install --save bootstrap-icons
+# Apres les installations
+Le projet se demarre sur index.html et main.ts qui va charger les modules
+# Creation de deux composants
+# Composant produit
+ng generate component products | ng g c products
+# Composant client
+ng generate component products | ng g c products
+
