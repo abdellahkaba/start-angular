@@ -45,4 +45,13 @@ export class ProductsComponent implements OnInit{
       }
     })
   }
+
+  handleSetPromotion(p: Product) {
+    let promo = p.promotion
+    this.productService.setPromotion(p.id).subscribe({
+      next : (data) => {
+        p.promotion=!promo
+      },
+    })
+  }
 }

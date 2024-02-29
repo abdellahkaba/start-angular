@@ -9,9 +9,10 @@ export class ProductService {
   private products! : Array<Product> ;
   constructor() {
     this.products = [
-      {id: 1, name : "Computer", price : 2000},
-      {id: 2, name : "Iphone", price : 3000},
-      {id: 3, name : "Tablette", price : 2500},
+      {id: 1, name : "Computer", price : 2000,promotion : false},
+      {id: 2, name : "Iphone", price : 3000, promotion : true},
+      {id: 3, name : "Tablette", price : 2500, promotion : true},
+
     ];
   }
 
@@ -31,5 +32,15 @@ export class ProductService {
     //autrment dit remplacer un tableau par un autre
    this.products = this.products.filter(p => p.id!=id)
     return of(true)
+  }
+
+  //une methode qui change les promotions
+  public setPromotion(id : number) : Observable<boolean> {
+    //on cherche le produit
+    let product = this.products.find(p=>p.id==id);
+    if (product != undefined){
+      product.promotion=!product.promotion
+      return of(true)
+    } else return throwError(() => new Error("Product not found"))
   }
 }
