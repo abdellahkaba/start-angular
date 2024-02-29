@@ -12,4 +12,12 @@ Le projet se demarre sur index.html et main.ts qui va charger les modules
 ng generate component products | ng g c products
 # Composant client
 ng generate component products | ng g c products
+# Integration de bootstrap dans angular.json
+"styles": [
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
+            ]
 
