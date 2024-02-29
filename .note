@@ -22,4 +22,6 @@ ng generate component products | ng g c products
             ]
 # generation de service example
 ng g s services/product
-Pour le formulaire on importe ReactiveFormModule
+#Pour le formulaire on importe ReactiveFormModule
+#angular uuid
+npm install angular2-uuid --save

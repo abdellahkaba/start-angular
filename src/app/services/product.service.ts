@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable, of, throwError} from "rxjs";
-import {Product} from "../model/product.model";
+import {PageProduct, Product} from "../model/product.model";
+import {UUID} from "angular2-uuid";
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,16 @@ export class ProductService {
   private products! : Array<Product> ;
   constructor() {
     this.products = [
-      {id: 1, name : "Computer", price : 2000,promotion : false},
-      {id: 2, name : "Iphone", price : 3000, promotion : true},
-      {id: 3, name : "Tablette", price : 2500, promotion : true},
-
+      {id: UUID.UUID(), name : "Computer", price : 2000,promotion : false},
+      {id: UUID.UUID(), name : "Iphone", price : 3000, promotion : true},
+      {id: UUID.UUID(), name : "Tablette", price : 2500, promotion : true},
     ];
+
+    for(let i = 0; i<10; i++){
+      this.products.push({id: UUID.UUID(), name : "Computer", price : 2000,promotion : false})
+      this.products.push({id: UUID.UUID(), name : "Iphone", price : 3000, promotion : true})
+      this.products.push({id: UUID.UUID(), name : "Tablette", price : 2500, promotion : true})
+    }
   }
 
   //Une methode qui permet de retourner les produits
@@ -22,20 +28,35 @@ export class ProductService {
     //on genere la probalite des erreurs
     let rnd = Math.random();
     if (rnd<0.2) return  throwError(() => Error("Pas d'internet"))
-   else return of(this.products) ;
+   else return of([...this.products]) ;
+  }
+
+  //une methode de pagination
+
+  public getPageProducts(page : number, size : number) : Observable<{ size: number; totalPage: number; page: number; products: Product[] }>{
+    let index = page * size
+    let totalPages = ~~(this.products.length/size)
+    if(this.products.length % size != 0){
+      totalPages++
+    }
+
+    let pageProducts = this.products.slice(index,index+size)
+    return of({page:page, size:size, totalPage: totalPages, products : pageProducts})
+
+
   }
 
   //une methode de suppression
 
-  public deleteProduct(id : number) : Observable<boolean>{
+  public deleteProduct(id : string) : Observable<boolean>{
     //je veux parcourir le tableau pour chaq p je garde id qui est different de id
     //autrment dit remplacer un tableau par un autre
    this.products = this.products.filter(p => p.id!=id)
-    return of(true)
+   return of(true)
   }
 
   //une methode qui change les promotions
-  public setPromotion(id : number) : Observable<boolean> {
+  public setPromotion(id : string) : Observable<boolean> {
     //on cherche le produit
     let product = this.products.find(p=>p.id==id);
     if (product != undefined){
@@ -45,8 +66,16 @@ export class ProductService {
   }
 
   //une methode de recherche
-  public searchProducts (keyword : string) : Observable<Product[]>{
-   let products = this.products.filter(p=>p.name.includes(keyword))
-    return of(products)
+  public searchProducts (keyword : string,page : number, size : number) : Observable<{ size: number; totalPage: number; page: number; products: Product[] }>{
+   let result = this.products.filter(p=>p.name.includes(keyword))
+    let index = page * size
+    let totalPages = ~~(result.length/size)
+    if(this.products.length % size != 0){
+      totalPages++
+    }
+
+    let pageProducts = result.slice(index,index+size)
+    return of({page:page, size:size, totalPage: totalPages, products : pageProducts})
+
   }
 }

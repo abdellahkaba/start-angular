@@ -11,7 +11,11 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 export class ProductsComponent implements OnInit{
   products! : Array<Product>
   errorMessage! : string
+  currentPage: number = 0
+  pageSize :number = 5
+  totalPages: number = 0
   searchFormGroup! : FormGroup
+  currentAction : string="all"
 
   //on aura besoin d'utiliser notre service en l'injectant dans le constructeur
   constructor(private productService : ProductService, private fb : FormBuilder) {
@@ -21,7 +25,7 @@ export class ProductsComponent implements OnInit{
     this.searchFormGroup = this.fb.group({
       keyword : this.fb.control(null)
     })
-    this.handleGetAllProducts();
+    this.handleGetPageProducts();
   }
   //une methode retourne les produits
   handleGetAllProducts (){
@@ -29,6 +33,20 @@ export class ProductsComponent implements OnInit{
       //des que la donnees arrive ?
       next : (data) => {
         this.products = data
+      },
+      //Au cas ou sa retourne un message d'errors
+      error : (err) => {
+        this.errorMessage = err ;
+      }
+    });
+  }
+
+  handleGetPageProducts (){
+    this.productService.getPageProducts(this.currentPage,this.pageSize).subscribe({
+      //des que la donnees arrive ?
+      next : (data) => {
+        this.products = data.products
+        this.totalPages=data.totalPage
       },
       //Au cas ou sa retourne un message d'errors
       error : (err) => {
@@ -61,11 +79,22 @@ export class ProductsComponent implements OnInit{
   }
 
   handleSearchProduct() {
+    this.currentAction = "search"
+    this.currentPage = 0
     let keyword = this.searchFormGroup.value.keyword
-    this.productService.searchProducts(keyword).subscribe( {
+    this.productService.searchProducts(keyword,this.currentPage,this.pageSize).subscribe( {
       next : (data) => {
-        this.products = data
+        this.products = data.products
+        this.totalPages=data.totalPage
       }
     })
+  }
+
+  gotoPage(i: number) {
+      this.currentPage = i
+      if (this.currentAction === 'all')
+        this.handleGetPageProducts()
+      else
+        this.handleSearchProduct()
   }
 }
