@@ -33,7 +33,9 @@ export class ProductsComponent implements OnInit{
   }
 
 
-  handleDeleteProduct(p: any) {
+  handleDeleteProduct(p: Product) {
+    let conf = confirm("Vous etes sur de supprimer ? ");
+    if (conf == false) return;
     this.productService.deleteProduct(p.id).subscribe({
       next : (data) => {
          // this.handleGetAllProducts()
