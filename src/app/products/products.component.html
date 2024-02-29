@@ -1,5 +1,14 @@
 <div class="container" >
-  <div class="card">
+  <!--<div *ngIf="errorMessage" class="text-danger">
+    {{errorMessage}}
+  </div>-->
+  <ng-template #errors>
+    <div class="text-danger">
+      {{errorMessage}}
+    </div>
+  </ng-template>
+<!--  Message d'erreur si le produit n'existe pas-->
+  <div class="card" *ngIf="products; else errors" >
     <div class="card-header">Liste des Produits</div>
     <div class="card-body">
       <table class="table">

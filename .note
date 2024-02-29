@@ -20,4 +20,5 @@ ng generate component products | ng g c products
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
             ]
-
+# generation de service example
+ng g s services/product

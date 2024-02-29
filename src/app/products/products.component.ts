@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ProductService} from "../services/product.service";
 
 @Component({
   selector: 'app-products',
@@ -7,14 +8,23 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ProductsComponent implements OnInit{
   products! : Array<any>
-  constructor() {
+  errorMessage! : string
+
+  //on aura besoin d'utiliser notre service en l'injectant dans le constructeur
+  constructor(private productService : ProductService) {
   }
+  //on l'utilise dans ngOnInit en retourant un objet de type observable
   ngOnInit(): void {
-    this.products = [
-      {id: 1, name : "Computer", price : 2000},
-      {id: 2, name : "Iphone", price : 3000},
-      {id: 3, name : "Tablette", price : 2500},
-    ]
+    this.productService.getAllProducts().subscribe({
+      //des que la donnees arrive ?
+      next : (data) => {
+        this.products = data
+      },
+      //Au cas ou sa retourne un message d'errors
+      error : (err) => {
+        this.errorMessage = err ;
+      }
+    });
   }
 
   handleDeleteProduct(p: any) {
