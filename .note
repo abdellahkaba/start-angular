@@ -26,4 +26,6 @@ ng g s services/product
 #angular uuid
 npm install angular2-uuid --save
 # Systeme authentification
-
+#Pour proteger les routes
+ng g g authentication(guards) : permet de surveiller les routes
+Activer une route si une condition est activee
