@@ -47,4 +47,10 @@ export class AuthenticationService {
   public isAuthenticated () {
     return this.authenticatedUser!=undefined
   }
+  ///methode de la deconnexion
+  public logout (): Observable<boolean>{
+    this.authenticatedUser=undefined
+    localStorage.removeItem("authUser")
+    return of(true)
+  }
 }
