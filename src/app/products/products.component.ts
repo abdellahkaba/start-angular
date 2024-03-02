@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../services/product.service";
 import {Product} from "../model/product.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
   selector: 'app-products',
@@ -18,7 +19,8 @@ export class ProductsComponent implements OnInit{
   currentAction : string="all"
 
   //on aura besoin d'utiliser notre service en l'injectant dans le constructeur
-  constructor(private productService : ProductService, private fb : FormBuilder) {
+  constructor(private productService : ProductService, private fb : FormBuilder,
+              public authService : AuthenticationService ) {
   }
   //on l'utilise dans ngOnInit en retourant un objet de type observable
   ngOnInit(): void {
