@@ -3,6 +3,7 @@ import {ProductService} from "../services/product.service";
 import {Product} from "../model/product.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthenticationService} from "../services/authentication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-products',
@@ -20,7 +21,8 @@ export class ProductsComponent implements OnInit{
 
   //on aura besoin d'utiliser notre service en l'injectant dans le constructeur
   constructor(private productService : ProductService, private fb : FormBuilder,
-              public authService : AuthenticationService ) {
+              public authService : AuthenticationService,
+              private router : Router) {
   }
   //on l'utilise dans ngOnInit en retourant un objet de type observable
   ngOnInit(): void {
@@ -98,5 +100,9 @@ export class ProductsComponent implements OnInit{
         this.handleGetPageProducts()
       else
         this.handleSearchProduct()
+  }
+
+  handlNewProduct() {
+    this.router.navigateByUrl("/admin/newProduct")
   }
 }

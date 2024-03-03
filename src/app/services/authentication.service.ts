@@ -12,9 +12,9 @@ export class AuthenticationService {
   authenticatedUser : AppUser | undefined
 
   constructor() {
-    this.users.push({userId : UUID.UUID(), username : "Mariam", password : "1234", roles : ["USERS"]})
-    this.users.push({userId : UUID.UUID(), username : "Oumar", password : "1234", roles : ["USERS"]})
-    this.users.push({userId : UUID.UUID(), username : "Abdellah", password : "1234", roles : ["USERS","ADMIN"]})
+    this.users.push({userId : UUID.UUID(), username : "Mariam", password : "Kaba987k", roles : ["USERS"]})
+    this.users.push({userId : UUID.UUID(), username : "Oumar", password : "Kaba987k", roles : ["USERS"]})
+    this.users.push({userId : UUID.UUID(), username : "Abdellah", password : "Kaba987k", roles : ["USERS","ADMIN"]})
   }
 
   //une methode qui fait auth

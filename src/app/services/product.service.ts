@@ -78,4 +78,11 @@ export class ProductService {
     return of({page:page, size:size, totalPage: totalPages, products : pageProducts})
 
   }
+
+  //une methode qui ajoute un produit
+  public addNewProduct(product : Product) : Observable<Product>{
+    product.id=UUID.UUID()
+    this.products.push(product)
+    return of(product)
+  }
 }
