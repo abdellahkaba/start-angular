@@ -44,6 +44,11 @@
               </button>
             </td>
             <td *ngIf="authService.hasRole('ADMIN')">
+              <button (click)="handleEditProduct(p)" class="btn btn-success">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </td>
+            <td *ngIf="authService.hasRole('ADMIN')">
               <button (click)="handleDeleteProduct(p)" class="btn btn-danger">
                 <i class="bi bi-trash"></i>
               </button>

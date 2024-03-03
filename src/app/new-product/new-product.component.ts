@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 })
 export class NewProductComponent  implements OnInit{
   productFormGroup! : FormGroup
-  constructor(private fb : FormBuilder, private prodService : ProductService, private router : Router) {
+  constructor(private fb : FormBuilder, public prodService : ProductService, private router : Router) {
   }
   ngOnInit(): void {
     this.productFormGroup = this.fb.group({
@@ -24,20 +24,11 @@ export class NewProductComponent  implements OnInit{
      let product = this.productFormGroup.value
       this.prodService.addNewProduct(product).subscribe({
         next : (data) => {
-          alert("produit bien ajouté")
+          alert("Product add successfully")
          // this.router.navigateByUrl("/admin/product")
           this.productFormGroup.reset()
 
         }
       })
-  }
-
-  //Fonction de message d'erreur
-  getErrorMessage(fiedldName: string, error: ValidationErrors) {
-    if (error['required']){
-      return fiedldName + "is Required"
-    }else if (error['minlength']){
-      return fiedldName+ " should have at leat " + error['minlength']['requiredLength']+" Characters"
-    }else return ""
   }
 }
